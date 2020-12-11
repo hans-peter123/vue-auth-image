@@ -8,6 +8,8 @@
 
 ## Overview
 
+The edit in this Fork allows you to set your own Token for authentication. 
+
 Contrary to other HTTP requests, browsers don't send common headers such as
 `Authorization` when retrieving an image specified in a `<img>` tag.
 
@@ -22,19 +24,15 @@ the `data:image/FILETYPE;base64` URI scheme.
 
 ## Install
 
-From npm:
+In your package.json:
 
 ``` sh
-$ npm install vue-auth-image --save
+"dependencies": {
+    "vue-auth-image": "git://github.com/hans-peter123/vue-auth-image.git"
+  },
 ```
 
-From CDN:
 
-``` html
-<script src="https://cdn.jsdelivr.net/npm/vue-auth-image@0.0.1/vue-auth-image.js"></script>
-<!-- OR -->
-<script src="https://cdn.jsdelivr.net/npm/vue-auth-image@0.0.1/vue-auth-image.min.js"></script>
-```
 
 ## API
 
@@ -43,17 +41,30 @@ From CDN:
 A directive that requests an image URI asynchronously and embed it into your
 `<img>` tag using the [data URI scheme](https://en.wikipedia.org/wiki/Data_URI_scheme).
 
+In your main.js:
 ``` js
 import Vue from 'vue';
 import VueAuthImage from 'vue-auth-image';
-
 // register vue-auth-image directive
 Vue.use(VueAuthImage);
-
-// set Authorization header used by axios
-var authHeader = 'Bearer ' + localStorage.getItem('id_token');
-axios.defaults.headers.common['Authorization'] = authHeader;
 ```
+
+Now you can set Authorization Token at on your login handler
+
+In your login.vue (or whatever):
+``` js
+import VueAuthImage from "vue-auth-image";
+
+export default {
+    methods: {
+        loginSuccessful(token) {
+            VueAuthImage.setup(token)
+        }
+    }
+}
+```
+
+
 
 Once the directive is registered, you can use it in your Vue templates.
 
