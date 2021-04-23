@@ -25,10 +25,10 @@
         responseType: 'arraybuffer'
       })
           .then(function(resp) {
-            console.log('axios says finish');
             var mimeType = resp.headers['content-type'].toLowerCase();
             var imgBase64 = new Buffer(resp.data, 'binary').toString('base64');
             el.src = 'data:' + mimeType + ';base64,' + imgBase64;
+            console.log('buffer created', el.src);
           }).catch((function() {
         el.src = imageUrl;
       }));
